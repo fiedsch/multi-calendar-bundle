@@ -1,0 +1,24 @@
+{% extends "@Contao/frontend_module/_base.html.twig" %}
+
+{% block wrapper_tag %}multi_calendar{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+    {%  for calendar in rendered_calendars %}
+        <div class="col-sm-12 col-md-4">
+        {{ calendar|raw }}
+        </div>
+    {%  endfor %}
+    </div>
+    <style>
+        .head.previous,
+        .head.next
+        {
+            display: none;
+        }
+        table.calendar td {
+            height: 3.6rem;
+        }
+    </style>
+{% endblock %}

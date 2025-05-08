@@ -1,0 +1,25 @@
+{
+  "name": "fiedsch/multi-calendar-bundle",
+  "type": "contao-bundle",
+  "description": "Multiple mini calendars",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Andreas Fieger",
+      "email": "dev@andreas-fieger.de",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": "^8.3",
+    "contao/core-bundle": "^5.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "Fiedsch\\MultiCalendarBundle\\": "src/"
+    }
+  },
+  "extra": {
+    "contao-manager-plugin": "Fiedsch\\MultiCalendarBundle\\ContaoManager\\Plugin"
+  }
+}
