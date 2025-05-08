@@ -23,7 +23,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['mc_type'] = array
     'reference'               => &$GLOBALS['TL_LANG']['MC_TYPE'],
     'options'                 => ['year','custom'],
     'eval'                    => ['tl_class'=>'w50', 'submitOnChange'=>true],
-    'sql'                     => ['type' => 'string', 'length' => 32, 'fixed' => true, 'default' => 'Jahr']
+    'sql'                     => ['type' => 'string', 'length' => 32, 'fixed' => true, 'default' => 'year']
 );
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['mc_back'] = array
