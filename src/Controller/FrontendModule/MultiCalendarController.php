@@ -56,6 +56,17 @@ class MultiCalendarController extends AbstractFrontendModuleController
             'default' => throw new RuntimeException(sprintf('Unknown type %s', $model->my_type))
         };
 
+        // Variable namesa naloguous to Contao's CalendarBundle
+        $template->prevHref = '?month=202401';
+        $template->prevTitle = '2024';
+        $template->prevLink = '2024';
+
+        $template->current = '2025';
+
+        $template->nextHref = '?month=202601';
+        $template->nextTitle = '2026';
+        $template->nextLink = '2026';
+
         return $template->getResponse();
     }
 

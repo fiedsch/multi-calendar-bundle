@@ -4,21 +4,59 @@
 
 {% block content %}
 
-    <div class="row">
-    {%  for calendar in rendered_calendars %}
-        <div class="col-sm-12 col-md-4">
-        {{ calendar|raw }}
+    {% block global_nav %}
+        <div class="row">
+        <table class="global-nav">
+            <thead>
+                <tr>
+                    <th colspan="2" class="head previous">
+                        {% if prevHref|default is not empty %}
+                            <a href="{{ prevHref }}" title="{{ prevTitle }}">{{ prevLink }}</a>
+                        {% else %}
+                            &nbsp;
+                        {% endif %}
+                    </th>
+                    <th colspan="3" class="head current">
+                        {{ current|default }}
+                    </th>
+                    <th colspan="2" class="head next">
+                        {% if nextHref|default is not empty %}
+                            <a href="{{ nextHref }}" title="{{ nextTitle }}">{{ nextLink }}</a>
+                        {% else %}
+                            &nbsp;
+                        {% endif %}
+                    </th>
+                </tr>
+            </thead>
+            </table>
         </div>
-    {%  endfor %}
-    </div>
-    <style>
-        .head.previous,
-        .head.next
-        {
-            display: none;
-        }
-        table.calendar td {
-            height: 3.6rem;
-        }
-    </style>
+    {% endblock %}
+
+    {% block calendars %}
+        <div class="row">
+            {%  for calendar in rendered_calendars %}
+                <div class="col-sm-12 col-md-4">
+                    {{ calendar|raw }}
+                </div>
+            {%  endfor %}
+        </div>
+    {% endblock %}
+
+    {% block styling %}
+        <style>
+            /* do not display the individual calendar's navigation links */
+            .head.previous,
+            .head.next
+            {
+                display: none;
+            }
+            /* instead: do display the global navigation links introduced by the module */
+            .global-nav .head.previous,
+            .global-nav .head.next
+            {
+                display: unset;
+            }
+        </style>
+    {% endblock %}
+
 {% endblock %}
