@@ -128,21 +128,7 @@ class MultiCalendarController extends AbstractFrontendModuleController
 
         $monthFormatted = sprintf('%s %s', $GLOBALS['TL_LANG']['MONTHS'][(int)$month -1] ?? $month, $year);
 
-
-        return <<<EOL
-<div class="empty-table>">
-<table class="calendar table table-sm">
-  <tbody>
-    <tr>
-        <td colspan="2" class="head previous text-left"></td>
-        <td colspan="3" class="head current text-center"><b>$monthFormatted</b></td>
-        </b></td>
-        <td colspan="2" class="head next text-right"></td>
-    </tr>
-  </tbody>
-</table>
-</div>
-EOL;
+        return $this->render('@FiedschMultiCalendar/mc_empty.html.twig', ['monthFormatted' => $monthFormatted])->getContent();
 
     }
 
