@@ -141,52 +141,6 @@ class MultiCalendarController extends AbstractFrontendModuleController
     </tr>
   </tbody>
 </table>
-<table class="calendar table table-sm">
-  <tbody>
-    <tr>
-        <td>Mo</td>
-        <td colspan="7">
-            <div class="header">&nbsp;</div>
-        </td>
-    </tr>
-    <tr>
-        <td>Di</td>
-        <td colspan="7">
-            <div class="header">&nbsp;</div>
-        </td>
-    </tr>
-    <tr>
-        <td>Mi</td>
-        <td colspan="7">
-            <div class="header">&nbsp;</div>
-        </td>
-    </tr>
-    <tr>
-        <td>Do</td>
-        <td colspan="7">
-            <div class="header">&nbsp;</div>
-        </td>
-    </tr>
-    <tr>
-        <td>Fr</td>
-        <td colspan="7">
-            <div class="header">&nbsp;</div>
-        </td>
-    </tr>
-    <tr>
-        <td>Sa</td>
-            <td colspan="7">
-            <div class="header">&nbsp;</div>
-        </td>
-    </tr>
-    <tr>
-        <td>So</td>
-        <td colspan="7">
-            <div class="header">&nbsp;</div>
-        </td>
-    </tr>
-  </tbody>
-</table>
 </div>
 EOL;
 
