@@ -5,39 +5,39 @@
 {% block content %}
 
     {% block global_nav %}
-        <div class="row">
-        <table class="global-nav">
-            <thead>
+        <table {{- attrs(global_nav_attributes|default).addClass('global-nav') -}}>
+            <tbody>
                 <tr>
-                    <th colspan="2" class="head previous">
+                    <td colspan="2" class="head previous text-left">
                         {% if prevHref|default is not empty %}
                             <a href="{{ prevHref }}" title="{{ prevTitle }}">{{ prevLink }}</a>
                         {% else %}
                             &nbsp;
                         {% endif %}
-                    </th>
-                    <th colspan="3" class="head current">
+                    </td>
+                    <td colspan="3" class="head current text-center">
                         {{ current|default }}
-                    </th>
-                    <th colspan="2" class="head next">
+                    </td>
+                    <td colspan="2" class="head next text-right">
                         {% if nextHref|default is not empty %}
                             <a href="{{ nextHref }}" title="{{ nextTitle }}">{{ nextLink }}</a>
                         {% else %}
                             &nbsp;
                         {% endif %}
-                    </th>
+                    </td>
                 </tr>
-            </thead>
+            </tbody>
             </table>
-        </div>
     {% endblock %}
 
     {% block calendars %}
-        <div class="row">
+        <div {{- attrs(calendars_attributes|default) -}}>
             {%  for calendar in rendered_calendars %}
-                <div class="col-sm-12 col-md-4">
-                    {{ calendar|raw }}
-                </div>
+                {% block calendar %}
+                    <div {{- attrs(single_calendar_attributes|default).addClass('single-calendar') -}}>
+                        {{ calendar|raw }}
+                    </div>
+                {% endblock %}
             {%  endfor %}
         </div>
     {% endblock %}
@@ -48,15 +48,14 @@
             .head.previous,
             .head.next
             {
-                display: none;
+            display: none;
             }
             /* instead: do display the global navigation links introduced by the module */
             .global-nav .head.previous,
             .global-nav .head.next
             {
-                display: unset;
+                display: table-cell;
             }
         </style>
     {% endblock %}
-
 {% endblock %}
