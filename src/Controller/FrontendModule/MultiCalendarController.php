@@ -1,4 +1,4 @@
-<?php /** @noinspection PhpDeprecationInspection */
+<?php
 
 declare(strict_types=1);
 
@@ -8,9 +8,9 @@ use Contao\BackendTemplate;
 use Contao\CoreBundle\Controller\FrontendModule\AbstractFrontendModuleController;
 use Contao\CoreBundle\DependencyInjection\Attribute\AsFrontendModule;
 use Contao\CoreBundle\Exception\PageNotFoundException;
-use Contao\Environment;
 use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\CoreBundle\Twig\FragmentTemplate;
+use Contao\Environment;
 use Contao\Input;
 use Contao\ModuleCalendar;
 use Contao\ModuleModel;
@@ -56,18 +56,58 @@ class MultiCalendarController extends AbstractFrontendModuleController
             'default' => throw new RuntimeException(sprintf('Unknown type %s', $model->my_type))
         };
 
-        // Variable namesa naloguous to Contao's CalendarBundle
-        $template->prevHref = '?month=202401';
-        $template->prevTitle = '2024';
-        $template->prevLink = '2024';
+        // Variable names analogue to Contao's CalendarBundle
+        //$baseUri = $request->getScriptName();
+        $baseUri = $request->getPathInfo();
 
-        $template->current = '2025';
-
-        $template->nextHref = '?month=202601';
-        $template->nextTitle = '2026';
-        $template->nextLink = '2026';
+        switch ($model->mc_type) {
+            case 'year':
+                $this->setYearTemplateVariables($template, $requestParameterMonth, $baseUri);
+                break;
+            case 'custom':
+                $this->setCustomTemplateVariables($template, $requestParameterMonth, $baseUri);
+                break;
+            default:
+                throw new RuntimeException(sprintf('Unknown type %s', $model->my_type));
+        }
 
         return $template->getResponse();
+    }
+
+    protected function setYearTemplateVariables(FragmentTemplate $template, string $requestParameterMonth, string $baseUri): void
+    {
+                $currentYear = substr($requestParameterMonth, 0, 4);
+                $prevYear = sprintf('%04d', (int)$currentYear - 1);
+                $nextYear = sprintf('%04d', (int)$currentYear + 1);
+                $template->prevHref = sprintf('%s?month=%s%s', $baseUri, $prevYear, '01');
+                $template->prevTitle = $prevYear;
+                $template->prevLink = $prevYear;
+
+                $template->current = substr($requestParameterMonth, 0, 4);
+
+                $template->nextHref = sprintf('%s?month=%s%s', $baseUri, $nextYear, '01');
+                $template->nextTitle = $nextYear;
+                $template->nextLink = $nextYear;
+    }
+
+    protected function setCustomTemplateVariables(FragmentTemplate $template, string $requestParameterMonth, string $baseUri): void
+    {
+                $currentYear = substr($requestParameterMonth, 0, 4);
+                $currentMonth = substr($requestParameterMonth, 4, 2);
+                $prevYear = sprintf('%04d', $currentMonth === '01' ? (int)$currentYear - 1 : $currentYear);
+                $prevMonth = sprintf('%02d', $currentMonth === '01' ? '12' : $currentMonth - 1);
+                $nextYear = sprintf('%04d', $currentMonth === '12' ? (int)$currentYear + 1 : $currentYear);
+                $nextMonth = sprintf('%02d', $currentMonth === '12' ? '01' : $currentMonth + 1);
+
+                $template->prevHref = sprintf('%s?month=%s%s', $baseUri, $prevYear, $prevMonth);
+                $template->prevTitle = sprintf('%s %s', $GLOBALS['TL_LANG']['MONTHS'][$prevMonth-1], $prevYear);
+                $template->prevLink = sprintf('%s %s', $GLOBALS['TL_LANG']['MONTHS'][$prevMonth-1], $prevYear);
+
+                $template->current = sprintf('%s %s', $GLOBALS['TL_LANG']['MONTHS'][$currentMonth-1], $currentYear);
+
+                $template->nextHref = sprintf('%s?month=%s%s', $baseUri, $nextYear, $nextMonth);
+                $template->nextTitle = sprintf('%s %s', $GLOBALS['TL_LANG']['MONTHS'][$nextMonth-1], $nextYear);
+                $template->nextLink = sprintf('%s %s', $GLOBALS['TL_LANG']['MONTHS'][$nextMonth-1], $nextYear);
     }
 
     protected function getYearCalendars(ModuleModel $model, string $requestParameterMonth): array
